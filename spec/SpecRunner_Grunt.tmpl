@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Jasmine Spec Runner</title>
+
+  <link rel="stylesheet" type="text/css" href="../.grunt/grunt-contrib-jasmine/jasmine.css">
+  <script src="../.grunt/grunt-contrib-jasmine/phantom-polyfill.js"></script>
+  <script src="../.grunt/grunt-contrib-jasmine/jasmine.js"></script>
+  <script src="../.grunt/grunt-contrib-jasmine/jasmine-html.js"></script>
+
+  <script src="lib/sinon-timers-1.10.1.js"></script>
+
+  <script src="lib/jquery-1.7.2.min.js"></script>
+
+  <!-- include allowable dependencies here -->
+  <script src="../lib/lodash.custom.min.js"></script>
+  <script src="../lib/lodash_mixins.js"></script>
+  <script src="../lib/highcharts.js"></script>
+  
+  <!-- include mid-level/optional dependencies -->
+  <script src="../lib/platform.js"></script>
+  <script src="../lib/php.js"></script>
+  
+  <!-- include source files here -->
+  <script src="../js/highcharts.theme.js"></script>
+  <script src="../js/isosvisutil.js"></script>
+  <script src="../js/isos_vis.js"></script>
+  <script src="../js/VisualizationParams.js"></script>
+  <script src="../js/HighchartsWrapper.js"></script>
+  <script src="../js/CurrencyService.js"></script>
+  <script src="../js/Visualization.js"></script>
+  <script src="../js/series.js"></script>
+  <script src="../js/SplytUtil.js"></script>
+  <script src="../js/Splyt.js"></script>
+  <script src="../js/Splyt.session.js"></script>
+  <script src="../js/Splyt.purchasing.js"></script>
+  <script src="../js/Splyt.web.js"></script>
+  <script src="../js/Splyt.charts.js"></script>
+
+  <!-- include spec files here... -->
+  <script src="spec/isosvisutil.js"></script>
+  <script src="spec/HighchartsWrapper.js"></script>
+  <script src="spec/CurrencyService.js"></script>
+  <script src="spec/VisualizationParams.js"></script>
+  <script src="spec/Visualization.js"></script>
+  <script src="spec/series.js"></script>
+  <script src="spec/SplytUtil.js"></script>
+  <script src="spec/Splyt.js"></script>
+  <script src="spec/Splyt.session.js"></script>
+  <script src="spec/Splyt.purchasing.js"></script>
+  <script type="text/javascript" src="spec/Splyt.web.js"></script>
+  <script src="spec/Splyt.SSF.Integration.js"></script>
+  
+  <script src="../.grunt/grunt-contrib-jasmine/reporter.js"></script>
+  <script src="../.grunt/grunt-contrib-jasmine/jasmine-helper.js"></script>
+</head>
+<body>
+<!-- THIS FILE EXISTS SO THAT WHEN RUNNING TESTS UNDER PHANTOMJS THERE IS A DIV FOR HIGHCHARTS -->
+<div id="div"></div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link href="css/bubblepop.css" rel="stylesheet">
+</head>
+<body>
+  <div id="container"></div>
+  <script src="js/jquery-1.7.2.min.js"></script>
+  <script src="js/kinetic-v4.4.0.min.js"></script>
+  <!-- For production, use Splyt.all.min.js -->
+  <!-- For development and testing, you can include the non-minified script; -->
+  <script src="js/Splyt.data.js"></script>
+  <script src="js/BubblePop.js"></script>
+  <script>
+    //some userId that you have gotten from your system or your environment
+    var userId = (new Date()).getTime();
+
+    /***Splyt!*************************/
+    //Initialize Splyt.You need to provide a customer id which
+    //should have been provided for you by the Splyt team.
+    //If you do no have one yet, please contact them.
+    //You also need to provide the user ID.
+
+    Splyt.init({
+      "customerId": "splyt-bubblepopjs-test",
+      "user": {
+        id:userId,
+        properties:{
+          gender:'male',
+          referral:'facebook'
+        }
+      }
+    }, function() {
+      //Begin a session.
+      Splyt.Session.begin(60*60, "index.html");
+
+      /**********************************/
+      //initialize the game and run...
+      BubblePop.init("container", 640, 480);
+  }, "index.html");
+  </script>
+</body>
+</html>
