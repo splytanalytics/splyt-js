@@ -1,4 +1,4 @@
-/* Copyright Row Sham Bow, Inc. 2014 */
+/* Copyright 2015 Knetik, Inc. */
 
 /**
  * <p>

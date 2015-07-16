@@ -1,4 +1,4 @@
-/* Copyright Row Sham Bow, Inc. 2014 */
+/* Copyright 2015 Knetik, Inc. */
 
 /**
  * <code>Splyt.Charts</code> provides functions that allows you to render a chart on your web page.
@@ -45,13 +45,13 @@ var Splyt_Charts = {
 
             //on success...
             obj.success = function(ssf) {
-               
+
                 // Build an info object from the response
-                
+
                 var info = ssf.data.info;
-                
+
                 // make sure some default options are specifed...
-                
+
                 info.sort = info.plotconfig.params.sort;
                 info.numberStyle = info.yformat || 'int';
                 info.xaxis = info.xformat;
@@ -64,10 +64,10 @@ var Splyt_Charts = {
                 //re create the chart with the retrieved information...
                 chart.destroy();
                 chart = v.create("highchart", div, info);
-                
+
                 //add the series...
                 chart.addSeries(seriesObj, info.type);
-                
+
                 /*
                 var pwrdby = chart.mChart.renderer.image("../img/powered_by_splyt.png", 0, 0, 56, 16);
                 pwrdby.on('click', function() {location.href = 'http://www.splyt.com';});
@@ -76,7 +76,7 @@ var Splyt_Charts = {
                 pwrdby.add().align({align: 'right', x: -58, verticalAlign: 'top',y: 2});
                 */
             };
-            
+
             Splyt.xhr(obj);
         }
     }

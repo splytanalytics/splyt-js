@@ -1,4 +1,4 @@
-/* Copyright Row Sham Bow, Inc. 2014 */
+/* Copyright 2015 Knetik, Inc. */
 
  /**
  * <code>Splyt.Session</code> contains functions used to mark the beginning and ending of
@@ -13,7 +13,7 @@
 var Splyt_Session = {
     /**
      * @constant
-     */ 
+     */
     SESSION_CATEGORY: "session",
     /**
      * @desc

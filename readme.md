@@ -7,17 +7,17 @@ In addition, SPLYT empowers you with the ability to take actions that will impro
 Note that this SDK currently assumes that your Javascript code will be running in a browser.
 
 ***
-  
+
 Initialization
 --------------
-  
+
 1. Source `Splyt.data.js` or `Splyt.data.min.js` in your document.
 
 		<script src="Splyt.data.js"/>
 
 2. As early as you can, initialize SPLYT with your unique customer ID.  You can find your customer ID in the [Products tool on splyt.com](https://www.splyt.com/admin/products), in the format of: org-product-env
    In order for sent data to be valid, you will need to have set a user ID, device ID, or both.  If you do not specify a device ID, one will be requested from SPLYT's servers or re-loaded from `localStorage`.
-	
+
 	<pre>
 		Splyt.init({
 			"customerId": "<em>[your SPLYT customer id goes here]</em>",
@@ -27,7 +27,7 @@ Initialization
 	</pre>
 
 3. Users and devices can be passed either as a single identifier, or as an object that contains a field named `id`.  When using the object approach, you can also specify a set of properties to associate with the user or device.
-	
+
 	<pre>
 		Splyt.init({
 			"customerId": "<em>[your customer id goes here]</em>",
@@ -59,7 +59,7 @@ Initialization
 
 Instrumentation
 ---------------
-  
+
 Add instrumentation that describes your users and their interaction with your site or app.  The {@linkcode Splyt.Instrumentation} namespace provides APIs for this purpose.
 
 APIs also exist to address some of the most common scenarios; for example, APIs in {@linkcode Splyt.Session} are useful for describing user sessions,
@@ -90,7 +90,7 @@ Tuning and Testing
 
 		Splyt.Tuning.refresh();
 
-***  
+***
 
 Charts
 ------
@@ -103,7 +103,7 @@ If you are using the charting portion of the SDK, take these additional steps:
 
 2. When initializing the SDK, pass the API key that you created from the [Products tool on splyt.com](https://dashboard.splyt.com/admin/products).
    You can also set the SDK to only initialize for charts with the `chartOnly parameter`; see the {@linkcode Splyt.Charts} documentation for details.
-	
+
 	<pre>
 		Splyt.init({
 			"customerId": "<em>[your customer id goes here]</em>",
@@ -124,4 +124,4 @@ properly in recent versions of Chrome, Firefox, and Safari.
 
 ***
 
-*Copyright Row Sham Bow, Inc. 2014*
+*Copyright 2015 Knetik, Inc.*

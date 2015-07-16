@@ -3,14 +3,14 @@
  * @private
  * @class
  * @classdesc
- * 
+ *
  * <p>
  * An internal utility class used in the core library for Splyt.
  * It provides implementations of some built-in functions available in PHP for dealing with types, as well
  * as a jQuery-compatible .ajax() implementation.
  * </p>
  *
- * Copyright Row Sham Bow, Inc. 2014
+ * Copyright 2015 Knetik, Inc.
  *
  * Includes modified portions of code from:
  *
@@ -117,7 +117,7 @@ var SplytUtil = (function() {
   }
 
   $.type = type;
-  $.isWindow = isWindow;  
+  $.isWindow = isWindow;
   $.isArray = isArray;
   $.isPlainObject = isPlainObject;
 

@@ -1,4 +1,4 @@
-/* Copyright Row Sham Bow, Inc. 2014 */
+/* Copyright 2015 Knetik, Inc. */
 
  /**
  * <code>Splyt.Purchasing</code> provides functions that allows you to report purchases made within your site or app.
@@ -14,12 +14,12 @@
 var Splyt_Purchasing = {
     /**
      * @constant
-     */ 
+     */
     PURCHASE_CATEGORY: "purchase",
     /**
      * @desc
      * <p>Record a purchase and all details about it.</p>
-     * 
+     *
      * @param {String} item
      * <p>The name/id of the item being purchased.</p>
      * @param {String} offer
