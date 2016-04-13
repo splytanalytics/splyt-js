@@ -138,5 +138,5 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('debug', ['gitinfo','jshint','jasmine','jsdoc','concat']);
 	grunt.registerTask('test', ['jasmine']);
-	grunt.registerTask('default', ['gitinfo','jshint','jasmine','jsdoc','concat','uglify:strip', 'uglify:build','copy:customer','zip:customer','clean:customer']);
+	grunt.registerTask('default', ['gitinfo','jshint','jasmine','concat','uglify:strip', 'uglify:build','copy:customer','zip:customer','clean:customer']);
 };

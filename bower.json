@@ -1,0 +1,23 @@
+{
+  "name": "splyt-js",
+  "description": "The Javascript SDK for Splyt.",
+  "main": [
+    "./bin/Splyt.all.js"
+  ],
+  "authors": [
+    "Knetik"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "splyt",
+    "knetik"
+  ],
+  "homepage": "https://github.com/splytanalytics/splyt-js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
