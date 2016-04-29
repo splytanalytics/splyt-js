@@ -328,6 +328,21 @@ function Series(ssfType) {
     this.captions = ssfType.data.captions, this.series = ssfType.data.series, this.transpose = ssfType.data.transpose);
 }
 
+function setCookie(cname, cvalue) {
+    var d = new Date();
+    d.setTime(d.getTime() + 864e9);
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+    for (var name = cname + "=", ca = document.cookie.split(";"), i = 0; i < ca.length; i++) {
+        for (var c = ca[i]; " " == c.charAt(0); ) c = c.substring(1);
+        if (0 === c.indexOf(name)) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
 !function() {
     function r(a, b) {
         var c;
@@ -6453,16 +6468,13 @@ var Splyt = {
                     properties: {}
                 };
             }
-        } else localStorage ? (void 0 !== localStorage[Splyt.LOCAL_STORAGE_KEY] ? Splyt.params.device = {
-            id: localStorage[Splyt.LOCAL_STORAGE_KEY],
+        } else void 0 !== getCookie(Splyt.LOCAL_STORAGE_KEY) ? Splyt.params.device = {
+            id: getCookie(Splyt.LOCAL_STORAGE_KEY),
             properties: {}
         } : Splyt.params.device = {
             id: null,
             properties: {}
-        }, null !== Splyt.params.device.id && (localStorage[Splyt.LOCAL_STORAGE_KEY] = Splyt.params.device.id)) : Splyt.params.device = {
-            id: null,
-            properties: {}
-        };
+        }, null !== Splyt.params.device.id && setCookie(Splyt.LOCAL_STORAGE_KEY, Splyt.params.device.id);
         var platform = window.platform;
         if ((!params.hasOwnProperty("scrape") || params.scrape) && platform && (platform.name && (Splyt.params.device.properties.browser = platform.name), 
         platform.version && (Splyt.params.device.properties.browserversion = platform.version), 
@@ -6508,7 +6520,7 @@ var Splyt = {
                 data && (data.hasOwnProperty("userid") && null !== data.userid && (Splyt.params.user.id = data.userid), 
                 data.hasOwnProperty("usertuning") && null !== data.usertuning && "object" === SplytUtil.gettype(data.usertuning) && (Splyt.userVars = data.usertuning), 
                 data.hasOwnProperty("deviceid") && null !== data.deviceid && (Splyt.params.device.id = data.deviceid, 
-                localStorage && (localStorage[Splyt.LOCAL_STORAGE_KEY] = data.deviceid)), data.hasOwnProperty("devicetuning") && null !== data.devicetuning && "object" === SplytUtil.gettype(data.devicetuning) && (Splyt.deviceVars = data.devicetuning), 
+                setCookie(Splyt.LOCAL_STORAGE_KEY, data.deviceid)), data.hasOwnProperty("devicetuning") && null !== data.devicetuning && "object" === SplytUtil.gettype(data.devicetuning) && (Splyt.deviceVars = data.devicetuning), 
                 callback && callback(data));
             }, obj.error = function() {
                 callback && callback(null);
@@ -6532,7 +6544,7 @@ var Splyt = {
             data && (data.hasOwnProperty("userid") && null !== data.userid && (Splyt.params.user.id = data.userid), 
             data.hasOwnProperty("usertuning") && null !== data.usertuning && "object" === SplytUtil.gettype(data.usertuning) && (Splyt.userVars = data.usertuning), 
             data.hasOwnProperty("deviceid") && null !== data.deviceid && (Splyt.params.device.id = data.deviceid, 
-            localStorage && (localStorage[Splyt.LOCAL_STORAGE_KEY] = data.deviceid)), data.hasOwnProperty("devicetuning") && null !== data.devicetuning && "object" === SplytUtil.gettype(data.devicetuning) && (Splyt.deviceVars = data.devicetuning), 
+            setCookie(Splyt.LOCAL_STORAGE_KEY, data.deviceid)), data.hasOwnProperty("devicetuning") && null !== data.devicetuning && "object" === SplytUtil.gettype(data.devicetuning) && (Splyt.deviceVars = data.devicetuning), 
             sessionStorage.setItem(Splyt.SESSION_PREVIOUS_INIT_KEY, JSON.stringify(Splyt.params)), 
             callback && callback(data));
         }, obj.error = function() {
@@ -6746,7 +6758,7 @@ Splyt.Session = Splyt_Session, Splyt.Web = function() {
     }, initSplytCache = function() {
         "use strict";
         splytCache = null;
-        var objStr = localStorage.splytWebCacheState;
+        var objStr = getCookie("splyt-webcache");
         if (objStr) try {
             splytCache = JSON.parse(objStr);
         } catch (err) {}
@@ -6764,7 +6776,7 @@ Splyt.Session = Splyt_Session, Splyt.Web = function() {
     }, updateSplytCache = function() {
         "use strict";
         splytCache.session.expiryTimeMs = getFutureExpiryEpoch(opts.sessionTimeoutMinutes / 1440), 
-        splytCache.session.isNew = !1, localStorage.splytWebCacheState = JSON.stringify(splytCache);
+        splytCache.session.isNew = !1, setCookie("splyt-webcache", JSON.stringify(splytCache));
     }, getId = function(entityType) {
         "use strict";
         var entityId = null;

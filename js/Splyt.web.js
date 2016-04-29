@@ -145,7 +145,7 @@ Splyt.Web = (function () {
     var initSplytCache = function() {
         "use strict";
         splytCache = null;
-        var objStr = localStorage.splytWebCacheState;
+        var objStr = getCookie('splyt-webcache');
 
         // Get the previous SPLYT session, if any.
         if (objStr) {
@@ -212,7 +212,7 @@ Splyt.Web = (function () {
         "use strict";
         splytCache.session.expiryTimeMs = getFutureExpiryEpoch(opts.sessionTimeoutMinutes/(24*60));
         splytCache.session.isNew = false;
-        localStorage.splytWebCacheState = JSON.stringify(splytCache);
+        setCookie('splyt-webcache', JSON.stringify(splytCache));
     };
 
     // Entity state management
