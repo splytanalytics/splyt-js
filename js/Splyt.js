@@ -12,9 +12,8 @@ var splytDocCookies = {
     return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
   },
   setItem: function (sKey, sValue) {
-    if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return false; }
     var sExpires = "expires=Fri, 31 Dec 9999 23:59:59 GMT";
-    document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + "; path=/";
+    document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + "; path=/;";
     return true;
   },
   removeItem: function (sKey, sPath) {
@@ -25,7 +24,7 @@ var splytDocCookies = {
   hasItem: function (sKey) {
     return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
   }
-}
+};
 
 var Splyt = {
     /**************************************************************************************************
@@ -172,12 +171,12 @@ var Splyt = {
             }
         } else {
             if(splytDocCookies.getItem(Splyt.LOCAL_STORAGE_KEY) !== undefined) {
-                Splyt.params.device = {id:getCookie(Splyt.LOCAL_STORAGE_KEY),properties:{}};
+                Splyt.params.device = {id:JSON.parse(splytDocCookies.getItem(Splyt.LOCAL_STORAGE_KEY)),properties:{}};
             } else {
                 Splyt.params.device = {id:null,properties:{}};
             }
             if(Splyt.params.device.id !== null) {
-                splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, Splyt.params.device.id);
+                splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, JSON.stringify(Splyt.params.device.id));
             }
         }
 
@@ -311,7 +310,7 @@ var Splyt = {
                 }
                 if(data.hasOwnProperty('deviceid') && data.deviceid !== null) {
                     Splyt.params.device.id = data.deviceid;
-                    splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, data.deviceid);
+                    splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, JSON.stringify(data.deviceid));
                 }
                 if(data.hasOwnProperty('devicetuning') && data.devicetuning !== null && SplytUtil.gettype(data.devicetuning) === 'object') {
                     Splyt.deviceVars = data.devicetuning;
@@ -379,7 +378,7 @@ var Splyt = {
                 }
                 if(data.hasOwnProperty('deviceid') && data.deviceid !== null) {
                     Splyt.params.device.id = data.deviceid;
-                    splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, data.deviceid);
+                    splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, JSON.stringify(data.deviceid));
                 }
                 if(data.hasOwnProperty('devicetuning') && data.devicetuning !== null && SplytUtil.gettype(data.devicetuning) === 'object') {
                     Splyt.deviceVars = data.devicetuning;

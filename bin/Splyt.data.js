@@ -19,21 +19,6 @@
  *    http://www.highcharts.com/
  *    Copyright (c) 2009-2014 Torstein Honsi
  */
-function setCookie(cname, cvalue) {
-    var d = new Date();
-    d.setTime(d.getTime() + 864e9);
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-}
-
-function getCookie(cname) {
-    for (var name = cname + "=", ca = document.cookie.split(";"), i = 0; i < ca.length; i++) {
-        for (var c = ca[i]; " " == c.charAt(0); ) c = c.substring(1);
-        if (0 === c.indexOf(name)) return c.substring(name.length, c.length);
-    }
-    return "";
-}
-
 (function() {
     "use strict";
     function capitalize(string) {
@@ -590,7 +575,23 @@ var SplytUtil = function() {
     };
 }(SplytUtil);
 
-var Splyt = {
+var splytDocCookies = {
+    getItem: function(sKey) {
+        return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+    },
+    setItem: function(sKey, sValue) {
+        var sExpires = "expires=Fri, 31 Dec 9999 23:59:59 GMT";
+        return document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + "; path=/;", 
+        !0;
+    },
+    removeItem: function(sKey, sPath) {
+        return sKey && this.hasItem(sKey) ? (document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT", 
+        !0) : !1;
+    },
+    hasItem: function(sKey) {
+        return new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=").test(document.cookie);
+    }
+}, Splyt = {
     TXN_SUCCESS: "success",
     TXN_ERROR: "error",
     ERROR_CID: "Missing or bad Customer ID",
@@ -637,13 +638,13 @@ var Splyt = {
                     properties: {}
                 };
             }
-        } else void 0 !== getCookie(Splyt.LOCAL_STORAGE_KEY) ? Splyt.params.device = {
-            id: getCookie(Splyt.LOCAL_STORAGE_KEY),
+        } else void 0 !== splytDocCookies.getItem(Splyt.LOCAL_STORAGE_KEY) ? Splyt.params.device = {
+            id: JSON.parse(splytDocCookies.getItem(Splyt.LOCAL_STORAGE_KEY)),
             properties: {}
         } : Splyt.params.device = {
             id: null,
             properties: {}
-        }, null !== Splyt.params.device.id && setCookie(Splyt.LOCAL_STORAGE_KEY, Splyt.params.device.id);
+        }, null !== Splyt.params.device.id && splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, JSON.stringify(Splyt.params.device.id));
         var platform = window.platform;
         if ((!params.hasOwnProperty("scrape") || params.scrape) && platform && (platform.name && (Splyt.params.device.properties.browser = platform.name), 
         platform.version && (Splyt.params.device.properties.browserversion = platform.version), 
@@ -689,7 +690,8 @@ var Splyt = {
                 data && (data.hasOwnProperty("userid") && null !== data.userid && (Splyt.params.user.id = data.userid), 
                 data.hasOwnProperty("usertuning") && null !== data.usertuning && "object" === SplytUtil.gettype(data.usertuning) && (Splyt.userVars = data.usertuning), 
                 data.hasOwnProperty("deviceid") && null !== data.deviceid && (Splyt.params.device.id = data.deviceid, 
-                setCookie(Splyt.LOCAL_STORAGE_KEY, data.deviceid)), data.hasOwnProperty("devicetuning") && null !== data.devicetuning && "object" === SplytUtil.gettype(data.devicetuning) && (Splyt.deviceVars = data.devicetuning), 
+                splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, JSON.stringify(data.deviceid))), 
+                data.hasOwnProperty("devicetuning") && null !== data.devicetuning && "object" === SplytUtil.gettype(data.devicetuning) && (Splyt.deviceVars = data.devicetuning), 
                 callback && callback(data));
             }, obj.error = function() {
                 callback && callback(null);
@@ -713,7 +715,8 @@ var Splyt = {
             data && (data.hasOwnProperty("userid") && null !== data.userid && (Splyt.params.user.id = data.userid), 
             data.hasOwnProperty("usertuning") && null !== data.usertuning && "object" === SplytUtil.gettype(data.usertuning) && (Splyt.userVars = data.usertuning), 
             data.hasOwnProperty("deviceid") && null !== data.deviceid && (Splyt.params.device.id = data.deviceid, 
-            setCookie(Splyt.LOCAL_STORAGE_KEY, data.deviceid)), data.hasOwnProperty("devicetuning") && null !== data.devicetuning && "object" === SplytUtil.gettype(data.devicetuning) && (Splyt.deviceVars = data.devicetuning), 
+            splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, JSON.stringify(data.deviceid))), 
+            data.hasOwnProperty("devicetuning") && null !== data.devicetuning && "object" === SplytUtil.gettype(data.devicetuning) && (Splyt.deviceVars = data.devicetuning), 
             sessionStorage.setItem(Splyt.SESSION_PREVIOUS_INIT_KEY, JSON.stringify(Splyt.params)), 
             callback && callback(data));
         }, obj.error = function() {
@@ -927,7 +930,7 @@ Splyt.Session = Splyt_Session, Splyt.Web = function() {
     }, initSplytCache = function() {
         "use strict";
         splytCache = null;
-        var objStr = getCookie("splyt-webcache");
+        var objStr = splytDocCookies.getItem("splyt-webcache");
         if (objStr) try {
             splytCache = JSON.parse(objStr);
         } catch (err) {}
@@ -945,7 +948,7 @@ Splyt.Session = Splyt_Session, Splyt.Web = function() {
     }, updateSplytCache = function() {
         "use strict";
         splytCache.session.expiryTimeMs = getFutureExpiryEpoch(opts.sessionTimeoutMinutes / 1440), 
-        splytCache.session.isNew = !1, setCookie("splyt-webcache", JSON.stringify(splytCache));
+        splytCache.session.isNew = !1, splytDocCookies.setItem("splyt-webcache", JSON.stringify(splytCache));
     }, getId = function(entityType) {
         "use strict";
         var entityId = null;
