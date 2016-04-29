@@ -7,6 +7,26 @@
  *
  * @namespace
  */
+var splytDocCookies = {
+  getItem: function (sKey) {
+    return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+  },
+  setItem: function (sKey, sValue) {
+    if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return false; }
+    var sExpires = "expires=Fri, 31 Dec 9999 23:59:59 GMT";
+    document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + "; path=/";
+    return true;
+  },
+  removeItem: function (sKey, sPath) {
+    if (!sKey || !this.hasItem(sKey)) { return false; }
+    document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    return true;
+  },
+  hasItem: function (sKey) {
+    return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
+  }
+}
+
 var Splyt = {
     /**************************************************************************************************
      * Default string constants.
@@ -151,13 +171,13 @@ var Splyt = {
                 throw new Error(Splyt.ERROR_ARGUMENT);
             }
         } else {
-            if(getCookie(Splyt.LOCAL_STORAGE_KEY) !== undefined) {
+            if(splytDocCookies.getItem(Splyt.LOCAL_STORAGE_KEY) !== undefined) {
                 Splyt.params.device = {id:getCookie(Splyt.LOCAL_STORAGE_KEY),properties:{}};
             } else {
                 Splyt.params.device = {id:null,properties:{}};
             }
             if(Splyt.params.device.id !== null) {
-                setCookie(Splyt.LOCAL_STORAGE_KEY, Splyt.params.device.id);
+                splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, Splyt.params.device.id);
             }
         }
 
@@ -291,7 +311,7 @@ var Splyt = {
                 }
                 if(data.hasOwnProperty('deviceid') && data.deviceid !== null) {
                     Splyt.params.device.id = data.deviceid;
-                    setCookie(Splyt.LOCAL_STORAGE_KEY, data.deviceid);
+                    splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, data.deviceid);
                 }
                 if(data.hasOwnProperty('devicetuning') && data.devicetuning !== null && SplytUtil.gettype(data.devicetuning) === 'object') {
                     Splyt.deviceVars = data.devicetuning;
@@ -359,7 +379,7 @@ var Splyt = {
                 }
                 if(data.hasOwnProperty('deviceid') && data.deviceid !== null) {
                     Splyt.params.device.id = data.deviceid;
-                    setCookie(Splyt.LOCAL_STORAGE_KEY, data.deviceid);
+                    splytDocCookies.setItem(Splyt.LOCAL_STORAGE_KEY, data.deviceid);
                 }
                 if(data.hasOwnProperty('devicetuning') && data.devicetuning !== null && SplytUtil.gettype(data.devicetuning) === 'object') {
                     Splyt.deviceVars = data.devicetuning;
@@ -883,25 +903,3 @@ var Splyt = {
          */
     }
 };
-
-function setCookie(cname, cvalue) {
-    var d = new Date();
-    d.setTime(d.getTime() + (10000*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length,c.length);
-        }
-    }
-    return "";
-}
