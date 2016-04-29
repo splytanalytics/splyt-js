@@ -13,7 +13,7 @@ var splytDocCookies = {
   },
   setItem: function (sKey, sValue) {
     var sExpires = "expires=Fri, 31 Dec 9999 23:59:59 GMT";
-    document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + "; path=/;";
+    document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + "; " + sExpires + "; path=/;";
     return true;
   },
   removeItem: function (sKey, sPath) {
